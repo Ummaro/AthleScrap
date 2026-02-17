@@ -1,10 +1,12 @@
 import sqlite3
 
 class DatabaseManager:
-    def __init__(self, db_name):
+    def __init__(self, db_name, schema_dict=None):
         self.connection = sqlite3.connect(db_name)
         self.cursor = self.connection.cursor()
-        self.create_table() #TODO tables schema
+        if schema_dict:
+            for table_name, schema in schema_dict.items():
+                self.create_table(table_name, schema)
 
     def create_table(self, table_name, schema):
         create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({schema})"

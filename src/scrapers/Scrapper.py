@@ -1,4 +1,4 @@
-import BeautifulSoup
+from bs4 import BeautifulSoup
 import requests
 
 class Scrapper:
@@ -10,11 +10,12 @@ class Scrapper:
         response = requests.get(self.url)
         if response.status_code == 200:
             self.page_content = response.text
+            return self.page_content
         else:
             raise Exception(f"Failed to fetch page: {response.status_code}")
     
-    def parse_page(self):
-        if not self.page_content:
+    def parse_page(self, page_content=None):
+        if not page_content:
             raise Exception("Page content is empty. Fetch the page first.")
-        soup = BeautifulSoup.BeautifulSoup(self.page_content, 'html.parser')
+        soup = BeautifulSoup(page_content, 'html.parser')
         return soup
